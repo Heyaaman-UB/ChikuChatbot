@@ -30,12 +30,12 @@ async def chikuQuery(query: str, user_id: int):
         if LANGUAGE == "en"
         else (await arq.translate(query, "en")).result.translatedText
     )
-    resp = (await ARQ.chiku(query, user_id)).result
+     resp = (await arq.luna(query, user_id)).result
     return (
         resp
         if LANGUAGE == "en"
         else (
-            await ARQ.translate(resp, LANGUAGE)
+            await arq.translate(resp, LANGUAGE)
         ).result.translatedText
     )
 
