@@ -39,14 +39,6 @@ async def lunaQuery(query: str, user_id: int):
         ).result.translatedText
     )
 
-async def type_and_send(message):
-    chat_id = message.chat.id
-    user_id = message.from_user.id if message.from_user else 0
-    query = message.text.strip()
-    await message._client.send_chat_action(chat_id, "typing")
-    response, _ = await gather(lunaQuery(query, user_id), sleep(2))
-    if "support" in response:
-        responsee = response.replace("@team_lad", "@teamladz_bothub")
 
 async def type_and_send(message):
     chat_id = message.chat.id
@@ -68,7 +60,6 @@ async def type_and_send(message):
         responsess2 = responsess
     await message.reply_text(responsess2)
     await message._client.send_chat_action(chat_id, "cancel")
-
 
 @luna.on_message(filters.command("repo") & ~filters.edited)
 async def repo(_, message):
