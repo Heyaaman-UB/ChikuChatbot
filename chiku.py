@@ -1,18 +1,26 @@
-print("[INFO]: Importing Your API_ID, API_HASH, BOT_TOKEN")
-import re
-from asyncio import (gather, get_event_loop, sleep)
+mport re
+import os
+from asyncio import gather, get_event_loop, sleep
 
 from aiohttp import ClientSession
-from pyrogram import (Client, filters, idle)
+from pyrogram import Client, filters, idle
 from Python_ARQ import ARQ
 
-from config import bot, BOT_TOKEN, ARQ_API_KEY, ARQ_API_BASE_URL, LANGUAGE
-bot_token= BOT_TOKEN
+is_config = os.path.exists("config.py")
 
-print("[INFO]: Checking... Your Details")
+if is_config:
+    from config import *
+else:
+    from sample_config import *
+
+luna = Client(
+    ":memory:",
+    bot_token=bot_token,
+    api_id=6,
+    api_hash="eb06d4abfb49dc3eeb1aeb98ae0f581e",
+)
 
 bot_id = int(bot_token.split(":")[0])
-print("[INFO]: Code running by master Poison")
 arq = None
 
 
@@ -39,7 +47,8 @@ async def type_and_send(message):
     await message._client.send_chat_action(chat_id, "typing")
     response, _ = await gather(lunaQuery(query, user_id), sleep(2))
     if "support" in response:
-        responsee = response.replace("cfc", "@aboutusso")
+        responsee = response.replace("@cfchub", "@aboutusso")
+
 
 async def type_and_send(message):
     chat_id = message.chat.id
@@ -47,26 +56,25 @@ async def type_and_send(message):
     query = message.text.strip()
     await message._client.send_chat_action(chat_id, "typing")
     response, _ = await gather(lunaQuery(query, user_id), sleep(2))
-    if "Chiku" in response:
-        responsee = response.replace("Chiku", "Chat Bot")
+    if "Luna" in response:
+        responsee = response.replace("Luna", "Chat Bot")
     else:
         responsee = response
     if "Aco" in responsee:
-        responsess = responsee.replace("Aco", "Chiku Bot")
+        responsess = responsee.replace("Aco", "Chat Bot")
     else:
         responsess = responsee
-    if "Who is Chiku" in responsess:
-        responsess2 = responsess.replace("Who is Chiku", "Me 😅")
+    if "Who is ChatBot" in responsess:
+        responsess2 = responsess.replace("Who is ChatBot", "Me 😅")
     else:
         responsess2 = responsess
     await message.reply_text(responsess2)
     await message._client.send_chat_action(chat_id, "cancel")
 
-
-@bot.on_message(
+@luna.on_message(
     ~filters.private
     & filters.text
-    & ~filters.command("start")
+    & ~filters.command("help")
     & ~filters.edited,
     group=69,
 )
@@ -110,9 +118,8 @@ async def main():
     session = ClientSession()
     arq = ARQ(ARQ_API_BASE_URL, ARQ_API_KEY, session)
 
-    await bot.start()
+   await bot.start()
     print(
-       
         """
 -----------------
 | Chiku Started! |
@@ -124,5 +131,3 @@ async def main():
 
 loop = get_event_loop()
 loop.run_until_complete(main())
-
-  
