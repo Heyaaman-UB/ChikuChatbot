@@ -39,6 +39,14 @@ async def lunaQuery(query: str, user_id: int):
         ).result.translatedText
     )
 
+async def type_and_send(message):
+    chat_id = message.chat.id
+    user_id = message.from_user.id if message.from_user else 0
+    query = message.text.strip()
+    await message._client.send_chat_action(chat_id, "typing")
+    response, _ = await gather(lunaQuery(query, user_id), sleep(2))
+    if "support" in response:
+        responsee = response.replace("@team_lad", "@teamladz_bothub")
 
 async def type_and_send(message):
     chat_id = message.chat.id
@@ -46,8 +54,8 @@ async def type_and_send(message):
     query = message.text.strip()
     await message._client.send_chat_action(chat_id, "typing")
     response, _ = await gather(lunaQuery(query, user_id), sleep(2))
-    if "chiku" in response:
-        responsee = response.replace("chiku", "Chiku Chatbot")
+    if "Luna" in response:
+        responsee = response.replace("Luna", "Chiku")
     else:
         responsee = response
     if "Aco" in responsee:
@@ -55,13 +63,13 @@ async def type_and_send(message):
     else:
         responsess = responsee
     if "Who is Chiku" in responsess:
-        responsess2 = responsess.replace("Who is ChatBot", "Me 😅")
+        responsess2 = responsess.replace("Who is Chiku", "Me 😅")
     else:
         responsess2 = responsess
     await message.reply_text(responsess2)
     await message._client.send_chat_action(chat_id, "cancel")
-    
-    
+
+
 @luna.on_message(filters.command("repo") & ~filters.edited)
 async def repo(_, message):
     await message.reply_text(
@@ -94,7 +102,7 @@ async def chat(_, message):
             return
     else:
         match = re.search(
-            "[.|\n]{0,}chiku[.|\n]{0,}",
+            "[.|\n]{0,}Chiku[.|\n]{0,}",
             message.text.strip(),
             flags=re.IGNORECASE,
         )
