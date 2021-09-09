@@ -46,16 +46,6 @@ async def type_and_send(message):
     query = message.text.strip()
     await message._client.send_chat_action(chat_id, "typing")
     response, _ = await gather(lunaQuery(query, user_id), sleep(2))
-    if "support" in response:
-        responsee = response.replace("@cfchub", "@aboutusso")
-
-
-async def type_and_send(message):
-    chat_id = message.chat.id
-    user_id = message.from_user.id if message.from_user else 0
-    query = message.text.strip()
-    await message._client.send_chat_action(chat_id, "typing")
-    response, _ = await gather(lunaQuery(query, user_id), sleep(2))
     if "Luna" in response:
         responsee = response.replace("Luna", "Chiku")
     else:
@@ -65,16 +55,33 @@ async def type_and_send(message):
     else:
         responsess = responsee
     if "Who is Chiku" in responsess:
-        responsess2 = responsess.replace("Who is Chiku", "Me 😅")
+        responsess2 = responsess.replace("Who is ChatBot", "Me 😅")
     else:
         responsess2 = responsess
     await message.reply_text(responsess2)
     await message._client.send_chat_action(chat_id, "cancel")
+    
+    
+@luna.on_message(filters.command("repo") & ~filters.edited)
+async def repo(_, message):
+    await message.reply_text(
+        "[GitHub](https://github.com/thehamkercat/LunaChatBot)"
+        + " | [Group](t.me/PatheticProgrammers)",
+        disable_web_page_preview=True,
+    )
 
-@chiku.on_message(
+
+@luna.on_message(filters.command("help") & ~filters.edited)
+async def start(_, message):
+    await luna.send_chat_action(message.chat.id, "typing")
+    await sleep(2)
+    await message.reply_text("/repo - Get Repo Link")
+
+
+@luna.on_message(
     ~filters.private
     & filters.text
-    & ~filters.command("start")
+    & ~filters.command("help")
     & ~filters.edited,
     group=69,
 )
@@ -96,21 +103,13 @@ async def chat(_, message):
     await type_and_send(message)
 
 
-@chiku.on_message(
-    filters.private
-    & ~filters.command("start")
-    & ~filters.edited
+@luna.on_message(
+    filters.private & ~filters.command("help") & ~filters.edited
 )
 async def chatpm(_, message):
     if not message.text:
-        await message.reply_text("Ufffff Avoiding....")
         return
     await type_and_send(message)
-
-
-@chiku.on_message(filters.command("start") & ~filters.edited)
-async def startt(_, message):
-    await message.reply_text("Hmm I Am A Online (~_^)")
 
 
 async def main():
