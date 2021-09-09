@@ -57,24 +57,24 @@ async def type_and_send(message):
     await message._client.send_chat_action(chat_id, "typing")
     response, _ = await gather(lunaQuery(query, user_id), sleep(2))
     if "Luna" in response:
-        responsee = response.replace("Luna", "Chat Bot")
+        responsee = response.replace("Luna", "Chiku")
     else:
         responsee = response
     if "Aco" in responsee:
-        responsess = responsee.replace("Aco", "Chat Bot")
+        responsess = responsee.replace("Aco", "Chiku")
     else:
         responsess = responsee
-    if "Who is ChatBot" in responsess:
-        responsess2 = responsess.replace("Who is ChatBot", "Me 😅")
+    if "Who is Chiku" in responsess:
+        responsess2 = responsess.replace("Who is Chiku", "Me 😅")
     else:
         responsess2 = responsess
     await message.reply_text(responsess2)
     await message._client.send_chat_action(chat_id, "cancel")
 
-@luna.on_message(
+@bot.on_message(
     ~filters.private
     & filters.text
-    & ~filters.command("help")
+    & ~filters.command("start")
     & ~filters.edited,
     group=69,
 )
