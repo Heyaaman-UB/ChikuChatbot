@@ -13,7 +13,7 @@ if is_config:
 else:
     from sample_config import *
 
-luna = Client(
+chiku = Client(
     ":memory:",
     bot_token=bot_token,
     api_id=6,
@@ -24,13 +24,13 @@ bot_id = int(bot_token.split(":")[0])
 arq = None
 
 
-async def lunaQuery(query: str, user_id: int):
+async def chikuQuery(query: str, user_id: int):
     query = (
         query
         if LANGUAGE == "en"
         else (await arq.translate(query, "en")).result.translatedText
     )
-    resp = (await arq.luna(query, user_id)).result
+    resp = (await arq.chiku(query, user_id)).result
     return (
         resp
         if LANGUAGE == "en"
@@ -46,8 +46,8 @@ async def type_and_send(message):
     query = message.text.strip()
     await message._client.send_chat_action(chat_id, "typing")
     response, _ = await gather(lunaQuery(query, user_id), sleep(2))
-    if "Luna" in response:
-        responsee = response.replace("Luna", "Chiku")
+    if "chiku" in response:
+        responsee = response.replace("chiku", "Chiku Chatbot")
     else:
         responsee = response
     if "Aco" in responsee:
@@ -62,23 +62,23 @@ async def type_and_send(message):
     await message._client.send_chat_action(chat_id, "cancel")
     
     
-@luna.on_message(filters.command("repo") & ~filters.edited)
+@chiku.on_message(filters.command("repo") & ~filters.edited)
 async def repo(_, message):
     await message.reply_text(
-        "[GitHub](https://github.com/thehamkercat/LunaChatBot)"
-        + " | [Group](t.me/PatheticProgrammers)",
+        "[GitHub](https://github.com/heyaaman/ChikuChatbot)"
+        + " | [Group](t.me/aboutusso)",
         disable_web_page_preview=True,
     )
 
 
-@luna.on_message(filters.command("help") & ~filters.edited)
+@chiku.on_message(filters.command("help") & ~filters.edited)
 async def start(_, message):
     await luna.send_chat_action(message.chat.id, "typing")
     await sleep(2)
     await message.reply_text("/repo - Get Repo Link")
 
 
-@luna.on_message(
+@chiku.on_message(
     ~filters.private
     & filters.text
     & ~filters.command("help")
@@ -94,7 +94,7 @@ async def chat(_, message):
             return
     else:
         match = re.search(
-            "[.|\n]{0,}Chiku[.|\n]{0,}",
+            "[.|\n]{0,}chiku[.|\n]{0,}",
             message.text.strip(),
             flags=re.IGNORECASE,
         )
@@ -103,7 +103,7 @@ async def chat(_, message):
     await type_and_send(message)
 
 
-@luna.on_message(
+@chiku.on_message(
     filters.private & ~filters.command("help") & ~filters.edited
 )
 async def chatpm(_, message):
@@ -117,7 +117,7 @@ async def main():
     session = ClientSession()
     arq = ARQ(ARQ_API_BASE_URL, ARQ_API_KEY, session)
 
-    await luna.start()
+    await chiku.start()
     print(
         """
 -----------------
