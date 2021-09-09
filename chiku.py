@@ -71,7 +71,7 @@ async def type_and_send(message):
     await message.reply_text(responsess2)
     await message._client.send_chat_action(chat_id, "cancel")
 
-@bot.on_message(
+@chiku.on_message(
     ~filters.private
     & filters.text
     & ~filters.command("start")
@@ -96,7 +96,7 @@ async def chat(_, message):
     await type_and_send(message)
 
 
-@bot.on_message(
+@chiku.on_message(
     filters.private
     & ~filters.command("start")
     & ~filters.edited
@@ -108,7 +108,7 @@ async def chatpm(_, message):
     await type_and_send(message)
 
 
-@bot.on_message(filters.command("start") & ~filters.edited)
+@chiku.on_message(filters.command("start") & ~filters.edited)
 async def startt(_, message):
     await message.reply_text("Hmm I Am A Online (~_^)")
 
