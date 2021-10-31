@@ -47,15 +47,15 @@ async def type_and_send(message):
     await message._client.send_chat_action(chat_id, "typing")
     response, _ = await gather(lunaQuery(query, user_id), sleep(2))
     if "Chiku" in response:
-        responsee = response.replace("Chiku", "Sophie")
+        responsee = response.replace("Chiku", "Chiku")
     else:
         responsee = response
     if "Aco" in responsee:
-        responsess = responsee.replace("Aco", "Sophie")
+        responsess = responsee.replace("Aco", "Chiku")
     else:
         responsess = responsee
-    if "Who is Sophie" in responsess:
-        responsess2 = responsess.replace("Who is Sophie", "Me 😅")
+    if "Who is Chiku" in responsess:
+        responsess2 = responsess.replace("Who is Chiku", "Me 😅")
     else:
         responsess2 = responsess
     await message.reply_text(responsess2)
@@ -93,7 +93,7 @@ async def chat(_, message):
             return
     else:
         match = re.search(
-            "[.|\n]{0,}Sophie[.|\n]{0,}",
+            "[.|\n]{0,}Chiku[.|\n]{0,}",
             message.text.strip(),
             flags=re.IGNORECASE,
         )
@@ -120,7 +120,7 @@ async def main():
     print(
         """
 -----------------
-| Sophie Started! |
+| Chiku Started! |
 -----------------
 """
     )
